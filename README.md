@@ -7,7 +7,7 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 
 ---
 
-## 🧩 About the App
+## About the App
 
 **Snippet Vault** is a browser-based code snippet manager that lets developers save, organize, and quickly retrieve reusable code — all in one place.
 
@@ -21,7 +21,7 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 
 ---
 
-## 🛠️ Stack Overview
+## Stack Overview
 
 | Layer | Tool |
 |---|---|
@@ -33,7 +33,7 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 
 ---
 
-## 📋 Deployment Overview
+## Deployment Overview
 
 The server setup is broken into four parts:
 
@@ -158,7 +158,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <table>
   <tr>
@@ -172,7 +172,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-## ⚠️ Notes
+## Notes
 
 - **HTTPS requires two things:** an open port 443 in the EC2 security group **and** a valid SSL/TLS certificate configured in Nginx. Opening the port alone is not sufficient.
 
@@ -184,7 +184,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-## 🧠 What I Learned
+## What I Learned
 
 - How to provision and connect to a cloud server on AWS from scratch
 - How Nginx serves static content and how to configure it for a custom domain
@@ -194,7 +194,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-## 🚀 Future Improvements
+##  Future Improvements
 
 - **Attach an Elastic IP** to eliminate the need to manually update Duck DNS after reboots
 - **CI/CD pipeline** to automatically deploy site changes on push (e.g. GitHub Actions)
