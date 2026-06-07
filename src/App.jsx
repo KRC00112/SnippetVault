@@ -15,6 +15,9 @@ function SnippetCardList({list,removeCard}){
             day:"numeric",
             month:"long",
             year:"numeric",
+            hour:"numeric",
+            minute:"numeric",
+            second:"numeric",
         });
     }
 
@@ -76,13 +79,12 @@ function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focus
 function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, language, code, languageList, addSnippetOnClick, focused, handleFocus}){
 
 
-    const handleAddSnippetBtnClick = ()=>{
-
-        addSnippetOnClick({id:Date.now(),title:title,language:language,code:code})
 
 
 
-    }
+
+
+
 
     return(
         <div className='card add-snippet-card'>
@@ -94,7 +96,7 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
                 ))}
             </select>
             <textarea className={`input-snippet card-inputs ${focused==='snippet'?'clicked':''}`} onFocus={()=>{handleFocus('snippet')}} onBlur={()=>{handleFocus('')}} placeholder='Paste your snippet here...' rows={22} value={code} onChange={(e)=>{handleSetCode(e)}}></textarea>
-            <button className='add-snippet-btn card' onClick={()=>handleAddSnippetBtnClick()}>+ ADD SNIPPET</button>
+            <button className='add-snippet-btn card' onClick={()=>addSnippetOnClick({id:Date.now(),title:title,language:language,code:code})}>+ ADD SNIPPET</button>
         </div>
     );
 }
@@ -102,7 +104,7 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
 function App() {
 
 
-    let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift'];
+    let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift', 'Bash'];
     const [snippets,setSnippets]=useLocalStorage('snippets',[]);
     const [query, setQuery] = useState('');
     const [focused, setFocused] = useState('');
@@ -163,7 +165,8 @@ function App() {
                             handleSetLanguage={handleSetLanguage}
                             handleSetCode={handleSetCode}
                             title={title} language={language}
-                            code={code} addSnippetOnClick={addSnippetOnClick}
+                            code={code}
+                            addSnippetOnClick={addSnippetOnClick}
                             languageList={languageList}
                             focused={focused}
                             handleFocus={handleFocus}/>

@@ -147,7 +147,7 @@ index.html    assets/
 Where `assets/` contains the compiled output:
 
 ```
-assets/index.css    assets/index.js
+assets/index.css    assets/index.cjs
 ```
 
 `index.html` is the entry point. The browser automatically loads the CSS and JS bundle from there.
