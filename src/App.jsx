@@ -1,6 +1,6 @@
 
 import './App.css'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useLocalStorage} from "usehooks-ts";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,7 +30,7 @@ function SnippetCardList({list,removeCard}){
                         <div className='right-card-title-label'>{obj.title}</div>
                         <div className='right-card-language-label'>{obj.language}</div>
                     </div>
-                    <div className='date'>{formattedDate(new Date(obj.id))}</div>
+                    <div className='date'>{formattedDate(new Date(obj.created_at))}</div>
                 </div>
                 <pre className='right-card-snippet'>{obj.code}</pre>
                 <div className='snippet-operations'>
@@ -104,14 +104,30 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
 function App() {
 
 
+
+
     let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift', 'Bash'];
-    const [snippets,setSnippets]=useLocalStorage('snippets',[]);
+    const [snippets,setSnippets]=useState([]);
     const [query, setQuery] = useState('');
     const [focused, setFocused] = useState('');
     const [title, setTitle] = useState('')
     const [language, setLanguage] = useState(languageList[0]);
     const [code, setCode] = useState('');
     const [loggedIn, setLoggedIn] = useState(true);
+
+
+    useEffect(() => {
+        async function fetchSnippets(){
+
+            const response = await fetch("http://localhost:3000/");
+            const data = await response.json();
+            setSnippets(data)
+
+        }
+        fetchSnippets();
+    }, []);
+
+
 
     const handleFocus=(comp)=>{
         setFocused(comp)
