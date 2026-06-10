@@ -96,7 +96,7 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
                 ))}
             </select>
             <textarea className={`input-snippet card-inputs ${focused==='snippet'?'clicked':''}`} onFocus={()=>{handleFocus('snippet')}} onBlur={()=>{handleFocus('')}} placeholder='Paste your snippet here...' rows={22} value={code} onChange={(e)=>{handleSetCode(e)}}></textarea>
-            <button className='add-snippet-btn card' onClick={()=>addSnippetOnClick({id:Date.now(),title:title,language:language,code:code})}>+ ADD SNIPPET</button>
+            <button className='add-snippet-btn card' onClick={()=>addSnippetOnClick({title:title,language:language,code:code})}>+ ADD SNIPPET</button>
         </div>
     );
 }
@@ -136,12 +136,24 @@ function App() {
     const onChangeQuery=(e)=>{
         setQuery(e.target.value)
     }
-    const removeCard=(id)=>{
+    const removeCard=async(id)=>{
+        const response = await fetch(`http://localhost:3000/${id}`,{method: 'DELETE'})
         setSnippets(prev=>prev.filter(item=>item.id!==id))
     }
-    const addSnippetOnClick=(item)=>{
+    const addSnippetOnClick=async (item)=>{
+
+
         if(item.language!==languageList[0] && item.title!=="" && item.code!=="") {
-            setSnippets(prev => [...prev, item]);
+            const response = await fetch("http://localhost:3000/",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(item)
+            });
+
+            const newSnippet= await response.json();
+            setSnippets(prev => [...prev, newSnippet]);
             setTitle('')
             setLanguage(languageList[0]);
             setCode('')
