@@ -8,7 +8,7 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 
 ## About the App
 
-**Snippet Vault** is a browser-based code snippet manager that lets developers save, organize, and quickly retrieve reusable code — all in one place.
+**Snippet Vault** is a browser-based code snippet manager that lets developers save, organize, and quickly retrieve reusable code, all in one place.
 
 **Features include:**
 - **Save snippets:** with a title, programming language tag, and code body
