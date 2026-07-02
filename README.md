@@ -193,7 +193,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-##  Future Improvements
+##  To-dos:
 
 - **Attach an Elastic IP** to eliminate the need to manually update Duck DNS after reboots
 - **CI/CD pipeline** to automatically deploy site changes on push (e.g. GitHub Actions)
