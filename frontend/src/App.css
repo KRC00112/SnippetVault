@@ -361,6 +361,6 @@ header {
   opacity: 1;
 }
 
-.signup-form{
+.signup-form, .signin-form{
   background-color: white;
 }

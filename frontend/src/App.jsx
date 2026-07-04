@@ -181,23 +181,53 @@ function App() {
             },
             body: JSON.stringify(credentials)
         });
+        setEmail('')
+        setUsername('')
+        setPassword('')
         return await response.json();
+    }
+
+    const loginOnSubmit=async()=>{
+        const response=await fetch(`http://localhost:5000/${email}`);
+        const data = await response.json();
+        if (data.length===0){
+            window.alert('no such email exists')
+        }else{
+            if (password===data[0].password){
+                window.alert(`Welcome ${data[0].username}`)
+
+            }else{
+                window.alert('incorrect password')
+            }
+
+        }
+
+        setEmail('')
+        setPassword('')
+        return data;
     }
 
   return (
     <div className='page'>
         <div className='signup-form'>
             <h3>SignUp Form</h3>
-            <input name='username' type='text' placeholder='Enter Username...' onChange={(e)=>setUsername(e.target.value)}/>
-            <input name='email' type='email' placeholder='Enter Email...' onChange={(e)=>setEmail(e.target.value)}/>
-            <input name='password' type='password' placeholder='Enter Password...' onChange={(e)=>setPassword(e.target.value)}/>
+            <input name='username' type='text' placeholder='Enter Username...' value={username} onChange={(e)=>setUsername(e.target.value)}/>
+            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={(e)=>setEmail(e.target.value)}/>
+            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={(e)=>setPassword(e.target.value)}/>
             <button onClick={()=>registerOnSubmit({
                 username: username,
                 email: email,
                 password: password,
             })}>Submit</button>
-
         </div>
+
+        <div className='signin-form'>
+            <h3>SignIn Form</h3>
+            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={(e)=>setEmail(e.target.value)}/>
+            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={(e)=>setPassword(e.target.value)}/>
+            <button onClick={()=>loginOnSubmit()}>Submit</button>
+        </div>
+
         <header>
             <div className='header-left'>
                 <span className='header-icon'>{'</>'}</span>

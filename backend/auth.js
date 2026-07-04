@@ -19,6 +19,11 @@ app.get('/', async(req, res) => {
     res.send(results.rows);
 })
 
+app.get('/:email', async(req, res) => {
+    const results=await pool.query("SELECT * FROM authtable WHERE email=$1",[req.params.email]);
+    res.send(results.rows);
+})
+
 app.post('/', async(req, res) => {
     const results=await pool.query("INSERT INTO authtable(username, email, password) VALUES($1, $2, $3) RETURNING *",[req.body.username, req.body.email, req.body.password]);
     res.json(results.rows[0]);
