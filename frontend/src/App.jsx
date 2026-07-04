@@ -115,6 +115,9 @@ function App() {
     const [code, setCode] = useState('');
     const [loggedIn, setLoggedIn] = useState(true);
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
 
     useEffect(() => {
         async function fetchSnippets(){
@@ -170,8 +173,31 @@ function App() {
         setCode(e.target.value)
     }
 
+    const registerOnSubmit=async(credentials)=>{
+        const response=await fetch('http://localhost:5000/',{
+            method: 'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(credentials)
+        });
+        return await response.json();
+    }
+
   return (
     <div className='page'>
+        <div className='signup-form'>
+            <h3>SignUp Form</h3>
+            <input name='username' type='text' placeholder='Enter Username...' onChange={(e)=>setUsername(e.target.value)}/>
+            <input name='email' type='email' placeholder='Enter Email...' onChange={(e)=>setEmail(e.target.value)}/>
+            <input name='password' type='password' placeholder='Enter Password...' onChange={(e)=>setPassword(e.target.value)}/>
+            <button onClick={()=>registerOnSubmit({
+                username: username,
+                email: email,
+                password: password,
+            })}>Submit</button>
+
+        </div>
         <header>
             <div className='header-left'>
                 <span className='header-icon'>{'</>'}</span>

@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 const pool = new Pool({
     user: "postgres",
-    host: "postgres",
+    host: "localhost",
     database: "snippetvaultdb",
     password: "1234",
     port: 5432,
