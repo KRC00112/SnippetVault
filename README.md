@@ -1,6 +1,6 @@
 # ☁ Snippet Vault: A Cloud Server Deployment Project
 
-A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom domain. The stack uses **Nginx** as the web server, **Duck DNS** for a free subdomain, and **Let's Encrypt** (via Certbot) for a trusted SSL/TLS certificate.
+A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom domain. The stack uses Nginx as the web server, Duck DNS for a free subdomain, and Let's Encrypt (via Certbot) for a trusted SSL/TLS certificate.
 
 
 
@@ -8,7 +8,7 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 
 ## About the App
 
-**Snippet Vault** is a browser-based code snippet manager that lets developers save, organize, and quickly retrieve reusable code — all in one place.
+**Snippet Vault** is a browser-based code snippet manager that lets developers save, organize, and quickly retrieve reusable code, all in one place.
 
 **Features include:**
 - **Save snippets:** with a title, programming language tag, and code body
@@ -193,7 +193,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ---
 
-##  Future Improvements
+##  To-dos:
 
 - **Attach an Elastic IP** to eliminate the need to manually update Duck DNS after reboots
 - **CI/CD pipeline** to automatically deploy site changes on push (e.g. GitHub Actions)
