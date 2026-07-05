@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {useLocalStorage} from "usehooks-ts";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {Link, Route, Routes} from "react-router-dom";
 
 
 
@@ -122,7 +123,7 @@ function LogInForm({loginOnSubmit, handleEmailChange, handlePasswordChange, emai
 
 
 function App() {
-    let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift', 'Bash'];
+    let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift', 'Bash', 'Rust'];
     const [snippets,setSnippets]=useState([]);
     const [query, setQuery] = useState('');
     const [focused, setFocused] = useState('');
@@ -130,7 +131,6 @@ function App() {
     const [language, setLanguage] = useState(languageList[0]);
     const [code, setCode] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
-    const [activeForm, setActiveForm] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -237,19 +237,25 @@ function App() {
   return (
     <div className='page'>
 
-        {activeForm==="signup" && <SignUpForm handleUsernameChange={handleUsernameChange}
-                    handleEmailChange={handleEmailChange}
-                    handlePasswordChange={handlePasswordChange}
-                    registerOnSubmit={registerOnSubmit}
-                    username={username}
-                    password={password}
-                    email={email}/>}
+        <Routes>
+            <Route path="/login" element={
+                <LogInForm handleEmailChange={handleEmailChange}
+                           handlePasswordChange={handlePasswordChange}
+                           loginOnSubmit={loginOnSubmit}
+                           password={password}
+                           email={email}/>
+            }/>
+            <Route path="/signup"  element={
+                <SignUpForm handleUsernameChange={handleUsernameChange}
+                            handleEmailChange={handleEmailChange}
+                            handlePasswordChange={handlePasswordChange}
+                            registerOnSubmit={registerOnSubmit}
+                            username={username}
+                            password={password}
+                            email={email}/>
+            }/>
+        </Routes>
 
-        {activeForm==="login" && <LogInForm handleEmailChange={handleEmailChange}
-                    handlePasswordChange={handlePasswordChange}
-                    loginOnSubmit={loginOnSubmit}
-                    password={password}
-                    email={email}/>}
 
 
         <header>
@@ -261,8 +267,12 @@ function App() {
                 <label className='snippets-count-label'>{snippets.length} SNIPPET{snippets.length===1?'':'S'}</label>
                 {loggedIn===false?
                     <>
-                        <button className='header-button' onClick={()=>setActiveForm('login')}>Login</button>
-                        <button className='header-button' onClick={()=>setActiveForm('signup')}>Sign up</button>
+                        <button className='header-button'>
+                            <Link to='/login'>Login</Link>
+                        </button>
+                        <button className='header-button'>
+                            <Link to='/signup'>Sign Up</Link>
+                        </button>
                     </>:<img src='/user_profile.svg' alt='user_profile' width='40px' className='header-user-profile'/>}
 
             </div>
