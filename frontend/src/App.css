@@ -245,6 +245,7 @@ header {
   color: #ffca00;
   padding: 10px;
   font-weight: bold;
+  border: none;
 }
 .header-button,.header-user-profile {
   margin-left:5px;
@@ -361,6 +362,6 @@ header {
   opacity: 1;
 }
 
-.signup-form, .signin-form{
+.signup-form, .login-form{
   background-color: white;
 }

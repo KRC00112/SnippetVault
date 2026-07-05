@@ -78,14 +78,6 @@ function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focus
 
 function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, language, code, languageList, addSnippetOnClick, focused, handleFocus}){
 
-
-
-
-
-
-
-
-
     return(
         <div className='card add-snippet-card'>
             <p className='add-snippet-heading'>NEW SNIPPET</p>
@@ -101,11 +93,35 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
     );
 }
 
+function SignUpForm({registerOnSubmit, handleUsernameChange, handleEmailChange, handlePasswordChange, username, email, password}) {
+    return(
+        <div className='signup-form'>
+        <h3>SignUp Form</h3>
+        <input name='username' type='text' placeholder='Enter Username...' value={username} onChange={handleUsernameChange}/>
+        <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
+        <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
+        <button onClick={()=>registerOnSubmit({
+            username: username,
+            email: email,
+            password: password,
+        })}>Submit</button>
+    </div>
+    );
+}
+
+function LogInForm({loginOnSubmit, handleEmailChange, handlePasswordChange, email, password}) {
+    return(
+        <div className='login-form'>
+            <h3>LoginIn Form</h3>
+            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
+            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
+            <button onClick={()=>loginOnSubmit()}>Submit</button>
+        </div>
+    );
+}
+
+
 function App() {
-
-
-
-
     let languageList = ['Select a language','JavaScript','Python','Java','C#','C','C++','TypeScript','PHP','Go','Swift', 'Bash'];
     const [snippets,setSnippets]=useState([]);
     const [query, setQuery] = useState('');
@@ -113,8 +129,8 @@ function App() {
     const [title, setTitle] = useState('')
     const [language, setLanguage] = useState(languageList[0]);
     const [code, setCode] = useState('');
-    const [loggedIn, setLoggedIn] = useState(true);
-
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [activeForm, setActiveForm] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -131,6 +147,17 @@ function App() {
     }, []);
 
 
+    const handleUsernameChange = (evt) => {
+        setUsername(evt.target.value);
+    }
+
+    const handlePasswordChange = (evt) => {
+        setPassword(evt.target.value);
+    }
+
+    const handleEmailChange = (evt) => {
+        setEmail(evt.target.value);
+    }
 
     const handleFocus=(comp)=>{
         setFocused(comp)
@@ -209,24 +236,21 @@ function App() {
 
   return (
     <div className='page'>
-        <div className='signup-form'>
-            <h3>SignUp Form</h3>
-            <input name='username' type='text' placeholder='Enter Username...' value={username} onChange={(e)=>setUsername(e.target.value)}/>
-            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={(e)=>setEmail(e.target.value)}/>
-            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={(e)=>setPassword(e.target.value)}/>
-            <button onClick={()=>registerOnSubmit({
-                username: username,
-                email: email,
-                password: password,
-            })}>Submit</button>
-        </div>
 
-        <div className='signin-form'>
-            <h3>SignIn Form</h3>
-            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={(e)=>setEmail(e.target.value)}/>
-            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={(e)=>setPassword(e.target.value)}/>
-            <button onClick={()=>loginOnSubmit()}>Submit</button>
-        </div>
+        {activeForm==="signup" && <SignUpForm handleUsernameChange={handleUsernameChange}
+                    handleEmailChange={handleEmailChange}
+                    handlePasswordChange={handlePasswordChange}
+                    registerOnSubmit={registerOnSubmit}
+                    username={username}
+                    password={password}
+                    email={email}/>}
+
+        {activeForm==="login" && <LogInForm handleEmailChange={handleEmailChange}
+                    handlePasswordChange={handlePasswordChange}
+                    loginOnSubmit={loginOnSubmit}
+                    password={password}
+                    email={email}/>}
+
 
         <header>
             <div className='header-left'>
@@ -237,8 +261,8 @@ function App() {
                 <label className='snippets-count-label'>{snippets.length} SNIPPET{snippets.length===1?'':'S'}</label>
                 {loggedIn===false?
                     <>
-                        <div className='header-button'>Login</div>
-                        <div className='header-button'>Sign up</div>
+                        <button className='header-button' onClick={()=>setActiveForm('login')}>Login</button>
+                        <button className='header-button' onClick={()=>setActiveForm('signup')}>Sign up</button>
                     </>:<img src='/user_profile.svg' alt='user_profile' width='40px' className='header-user-profile'/>}
 
             </div>
