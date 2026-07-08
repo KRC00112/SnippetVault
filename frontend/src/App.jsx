@@ -4,12 +4,12 @@ import {useEffect, useState} from "react";
 import {useLocalStorage} from "usehooks-ts";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Link, Route, Routes} from "react-router-dom";
+import {Link, Route, Routes, useNavigate} from "react-router-dom";
 
 
 
 
-function SnippetCardList({list,removeCard}){
+function SnippetCardList({list,removeCard,loggedIn}){
 
     const formattedDate=(date)=>{
         return date.toLocaleDateString("en-GB",{
@@ -36,7 +36,7 @@ function SnippetCardList({list,removeCard}){
                 <pre className='right-card-snippet'>{obj.code}</pre>
                 <div className='snippet-operations'>
                     <button className='copy-btn' onClick={() => {navigator.clipboard.writeText(obj.code); toast.success('Snippet copied')}}>⧉ COPY</button>
-                    <button className='delete-btn' onClick={()=>{removeCard(obj.id);toast.error("Snippet deleted")}}>✕ DELETE</button>
+                    <button className='delete-btn' onClick={()=>{removeCard(obj.id);toast.error("Snippet deleted")}} disabled={!loggedIn}>✕ DELETE</button>
                 </div>
             </div>
         ))}
@@ -45,7 +45,7 @@ function SnippetCardList({list,removeCard}){
 }
 
 
-function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focused,handleFocus}) {
+function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focused,handleFocus,loggedIn}) {
     const [selectedLanguageTag, setSelectedLanguageTag] = useState('all');
 
     const filteredList=query?snippets.filter(snippet=>snippet.title.toLowerCase().includes(query.toLowerCase())):snippets;
@@ -69,7 +69,7 @@ function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focus
                             <span>NO SNIPPETS HERE!</span>
                         </div>
                 </div>:<>
-                    <SnippetCardList list={displayList} removeCard={removeCard}/>
+                    <SnippetCardList list={displayList} removeCard={removeCard} loggedIn={loggedIn}/>
                 </>}
 
             </div>
@@ -77,7 +77,7 @@ function AllSnippets({snippets,languageList,removeCard,query,onChangeQuery,focus
     )
 }
 
-function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, language, code, languageList, addSnippetOnClick, focused, handleFocus}){
+function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, language, code, languageList, addSnippetOnClick, focused, handleFocus,loggedIn}){
 
     return(
         <div className='card add-snippet-card'>
@@ -89,34 +89,39 @@ function AddSnippet({handleSetTitle, handleSetLanguage , handleSetCode, title, l
                 ))}
             </select>
             <textarea className={`input-snippet card-inputs ${focused==='snippet'?'clicked':''}`} onFocus={()=>{handleFocus('snippet')}} onBlur={()=>{handleFocus('')}} placeholder='Paste your snippet here...' rows={22} value={code} onChange={(e)=>{handleSetCode(e)}}></textarea>
-            <button className='add-snippet-btn card' onClick={()=>addSnippetOnClick({title:title,language:language,code:code})}>+ ADD SNIPPET</button>
+            <button className='add-snippet-btn card' onClick={()=>addSnippetOnClick({title:title,language:language,code:code})} disabled={!loggedIn}>+ ADD SNIPPET</button>
         </div>
     );
 }
 
-function SignUpForm({registerOnSubmit, handleUsernameChange, handleEmailChange, handlePasswordChange, username, email, password}) {
+function SignUpForm({registerOnSubmit, handleUsernameChange, handleEmailChange, handlePasswordChange, username, email, password, onClose}) {
     return(
-        <div className='signup-form'>
-        <h3>SignUp Form</h3>
-        <input name='username' type='text' placeholder='Enter Username...' value={username} onChange={handleUsernameChange}/>
-        <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
-        <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
-        <button onClick={()=>registerOnSubmit({
-            username: username,
-            email: email,
-            password: password,
-        })}>Submit</button>
-    </div>
+        <div className='overlay' onClick={onClose}>
+            <div className='card signup-form' onClick={e=>e.stopPropagation()}>
+                <h3>SignUp Form</h3>
+                <input name='username' type='text' placeholder='Enter Username...' value={username} onChange={handleUsernameChange}/>
+                <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
+                <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
+                <button onClick={()=>registerOnSubmit({
+                    username: username,
+                    email: email,
+                    password: password,
+                })}>Submit</button>
+            </div>
+        </div>
+
     );
 }
 
-function LogInForm({loginOnSubmit, handleEmailChange, handlePasswordChange, email, password}) {
+function LogInForm({loginOnSubmit, handleEmailChange, handlePasswordChange, email, password, onClose}) {
     return(
-        <div className='login-form'>
-            <h3>LoginIn Form</h3>
-            <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
-            <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
-            <button onClick={()=>loginOnSubmit()}>Submit</button>
+        <div className='overlay' onClick={onClose}>
+            <div className='card login-form' onClick={e=>e.stopPropagation()}>
+                <h3>LoginIn Form</h3>
+                <input name='email' type='email' placeholder='Enter Email...' value={email} onChange={handleEmailChange}/>
+                <input name='password' type='password' placeholder='Enter Password...' value={password} onChange={handlePasswordChange}/>
+                <button onClick={()=>loginOnSubmit()}>Submit</button>
+            </div>
         </div>
     );
 }
@@ -134,6 +139,12 @@ function App() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+
+    const closeOverlay=()=>{
+        navigate("/");
+    }
+
 
     useEffect(() => {
         async function fetchSnippets(){
@@ -222,7 +233,7 @@ function App() {
         }else{
             if (password===data[0].password){
                 window.alert(`Welcome ${data[0].username}`)
-
+                setLoggedIn(true)
             }else{
                 window.alert('incorrect password')
             }
@@ -243,6 +254,7 @@ function App() {
                            handlePasswordChange={handlePasswordChange}
                            loginOnSubmit={loginOnSubmit}
                            password={password}
+                           onClose={closeOverlay}
                            email={email}/>
             }/>
             <Route path="/signup"  element={
@@ -252,6 +264,7 @@ function App() {
                             registerOnSubmit={registerOnSubmit}
                             username={username}
                             password={password}
+                            onClose={closeOverlay}
                             email={email}/>
             }/>
         </Routes>
@@ -267,12 +280,14 @@ function App() {
                 <label className='snippets-count-label'>{snippets.length} SNIPPET{snippets.length===1?'':'S'}</label>
                 {loggedIn===false?
                     <>
-                        <button className='header-button'>
-                            <Link to='/login'>Login</Link>
+                    <Link style={{color: "#f1c40f", textDecoration: "none"}} to='/login'><button className='header-button'>
+                            Login
                         </button>
-                        <button className='header-button'>
-                            <Link to='/signup'>Sign Up</Link>
+                    </Link>
+                    <Link style={{color: "#f1c40f", textDecoration: "none"}} to='/signup'><button className='header-button'>
+                            Sign Up
                         </button>
+                    </Link>
                     </>:<img src='/user_profile.svg' alt='user_profile' width='40px' className='header-user-profile'/>}
 
             </div>
@@ -287,6 +302,7 @@ function App() {
                             addSnippetOnClick={addSnippetOnClick}
                             languageList={languageList}
                             focused={focused}
+                            loggedIn={loggedIn}
                             handleFocus={handleFocus}/>
             </section>
             <section className='right-section'>
@@ -296,6 +312,7 @@ function App() {
                              query={query}
                              onChangeQuery={onChangeQuery}
                              focused={focused}
+                             loggedIn={loggedIn}
                              handleFocus={handleFocus}/>
             </section>
             <ToastContainer
