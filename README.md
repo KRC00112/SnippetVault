@@ -195,8 +195,8 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 
 ##  To-dos
 
-- **CI/CD pipeline** to automatically deploy site changes on push (e.g. GitHub Actions)
-- **Monitoring & logging** for uptime and traffic visibility (e.g. AWS CloudWatch)
+- CI/CD pipeline to automatically deploy site changes on push (e.g. GitHub Actions)
+- Monitoring & logging for uptime and traffic visibility (e.g. AWS CloudWatch)
 - Enhanced syntax highlighting for snippets to improve readability
-- **Backend + database** to sync snippets across devices and users (replacing `localStorage`)
-- **User authentication** to support personal snippet libraries per user
+- Backend + database to sync snippets across devices and users (replacing `localStorage`)
+- User authentication to support personal snippet libraries per user
