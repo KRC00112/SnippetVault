@@ -198,5 +198,5 @@ No Nginx restart is required after deploying files. **Changes are served immedia
 - CI/CD pipeline to automatically deploy site changes on push (e.g. GitHub Actions)
 - Monitoring & logging for uptime and traffic visibility
 - Enhanced syntax highlighting for snippets to improve readability
-- Backend + database to sync snippets across devices and users (replacing `localStorage`)
+- Backend + database to sync snippets across devices and users.
 - User authentication to support personal snippet libraries per user
