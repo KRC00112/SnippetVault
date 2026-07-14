@@ -25,8 +25,14 @@ app.get('/:email', async(req, res) => {
 })
 
 app.post('/', async(req, res) => {
-    const results=await pool.query("INSERT INTO authtable(username, email, password) VALUES($1, $2, $3) RETURNING *",[req.body.username, req.body.email, req.body.password]);
-    res.json(results.rows[0]);
+   try {
+       const results = await pool.query("INSERT INTO authtable(username, email, password) VALUES($1, $2, $3) RETURNING *", [req.body.username, req.body.email, req.body.password]);
+       res.json(results.rows[0]);
+   }catch(error){
+       if(error.code==='23505'){
+           res.json(error.code)
+       }
+   }
 })
 
 app.listen(port,()=>{

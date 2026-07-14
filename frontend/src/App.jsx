@@ -219,10 +219,18 @@ function App() {
             },
             body: JSON.stringify(credentials)
         });
+        const data = await response.json();
+        console.log(data);
         setEmail('')
         setUsername('')
         setPassword('')
-        return await response.json();
+
+        if(data==='23505'){
+           return window.alert("email already exists");
+        }
+
+
+        return data;
     }
 
     const loginOnSubmit=async()=>{
