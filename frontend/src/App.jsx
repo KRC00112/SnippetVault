@@ -220,16 +220,15 @@ function App() {
             body: JSON.stringify(credentials)
         });
         const data = await response.json();
-        console.log(data);
-        setEmail('')
-        setUsername('')
-        setPassword('')
 
         if(data==='23505'){
            return window.alert("email already exists");
         }
 
-
+        console.log(data);
+        setUsername(data.username);
+        setLoggedIn(true);
+        closeOverlay();
         return data;
     }
 
@@ -241,15 +240,16 @@ function App() {
         }else{
             if (password===data[0].password){
                 window.alert(`Welcome ${data[0].username}`)
+                setUsername(data[0].username);
                 setLoggedIn(true)
+                closeOverlay()
+
             }else{
                 window.alert('incorrect password')
             }
 
         }
 
-        setEmail('')
-        setPassword('')
         return data;
     }
 
@@ -296,7 +296,12 @@ function App() {
                             Sign Up
                         </button>
                     </Link>
-                    </>:<img src='/user_profile.svg' alt='user_profile' width='40px' className='header-user-profile'/>}
+                    </>:
+                    <div>
+                        <img src='/user_profile.svg' alt='user_profile' width='40px' className='header-user-profile'/>
+                        <div>{username}</div>
+                    </div>
+                }
 
             </div>
         </header>
