@@ -13,7 +13,6 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 **Features include:**
 - **Save snippets:** with a title, programming language tag, and code body
 - **Filter by language:** supports JavaScript, Python, Java, C#, C, C++, TypeScript, PHP, Go, and Swift
-- **Persistent storage:** via the browser's `localStorage`. Snippets survive page refreshes
 
 ---
 
