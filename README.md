@@ -151,11 +151,7 @@ assets/index.css    assets/index.cjs
 
 No Nginx restart is required after deploying files. **Changes are served immediately.**
 
----
-
-## Screenshots
-
-<table>
+<!-- <table>
   <tr>
     <td colspan="2" align="center"><img src="screenshots/Capture2.PNG"/></td>
   </tr>
@@ -163,7 +159,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
     <td><img src="screenshots/Capture1.PNG"/></td>
     <td><img src="screenshots/Capture3.PNG"/></td>
   </tr>
-</table>
+</table> -->
 
 ---
 
