@@ -1,6 +1,7 @@
 const express = require("express");
 const cors =require("cors");
 const app = express();
+const bcrypt = require("bcrypt");
 const port=5000
 const {Pool}=require("pg")
 app.use(express.json());
@@ -26,12 +27,21 @@ app.get('/:email', async(req, res) => {
 
 app.post('/', async(req, res) => {
    try {
-       const results = await pool.query("INSERT INTO authtable(username, email, password) VALUES($1, $2, $3) RETURNING *", [req.body.username, req.body.email, req.body.password]);
+       const {username, email, password} = req.body;
+
+       const hashedPassword = await bcrypt.hash(password, 12);
+
+       const results = await pool.query("INSERT INTO authtable(username, email, password) VALUES($1, $2, $3) RETURNING *", [username, email, hashedPassword]);
        res.json(results.rows[0]);
    }catch(error){
+       console.log(error);
        if(error.code==='23505'){
            res.json(error.code)
        }
+       return res.status(500).json({
+           message: error.message,
+           code: error.code
+       });
    }
 })
 
