@@ -1,4 +1,4 @@
-# ☁ Snippet Vault
+# Snippet Vault
 
 A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom domain. The stack uses Nginx as the web server, Duck DNS for a free subdomain, and Let's Encrypt (via Certbot) for a trusted SSL/TLS certificate.
 
@@ -13,10 +13,6 @@ A code snippet manager app deployed on AWS EC2, served over HTTPS at a custom do
 **Features include:**
 - **Save snippets:** with a title, programming language tag, and code body
 - **Filter by language:** supports JavaScript, Python, Java, C#, C, C++, TypeScript, PHP, Go, and Swift
-- **Search by title:** to find snippets instantly
-- **Copy to clipboard:** with a single click
-- **Delete snippets:** you no longer need
-- **Persistent storage:** via the browser's `localStorage`. Snippets survive page refreshes
 
 ---
 
@@ -155,11 +151,7 @@ assets/index.css    assets/index.cjs
 
 No Nginx restart is required after deploying files. **Changes are served immediately.**
 
----
-
-## Screenshots
-
-<table>
+<!-- <table>
   <tr>
     <td colspan="2" align="center"><img src="screenshots/Capture2.PNG"/></td>
   </tr>
@@ -167,7 +159,7 @@ No Nginx restart is required after deploying files. **Changes are served immedia
     <td><img src="screenshots/Capture1.PNG"/></td>
     <td><img src="screenshots/Capture3.PNG"/></td>
   </tr>
-</table>
+</table> -->
 
 ---
 
